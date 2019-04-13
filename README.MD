@@ -21,21 +21,34 @@ git clone https://github.com/moeen-basra/react-calculator
 
 4. go to project root directory and run the command
 
-```docker-compose -f docker-compose.prod.yml build```
+```
+docker-compose -f docker-compose.prod.yml build
+```
 
 5. run the containers
 
-```docker-compose -f docker-compose.prod.yml up -d```
+```
+docker-compose -f docker-compose.prod.yml up -d
+```
 
 6. open your favorite brower and paste the follwoing url
 
-```http://{hostip}:8087```
+```
+http://{hostip}:8087
+```
 
 7. for api use the following url
 
-```http://{hostip}:8088```
+```
+http://{hostip}:8088
+```
 
 8. for jenkins
 
-```http://{hostip}:8089```
+```
+http://{hostip}:8089
+```
+
+
+9. reterive the jenkins key from logs and paste. Next continue with recommended plugins and you are ready to create pipe lines for build and deployments.
 
