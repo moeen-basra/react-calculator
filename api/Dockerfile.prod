@@ -40,7 +40,7 @@ RUN apk del --no-cache \
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-RUN composer install --no-dev --no-scripts
+    && composer install --no-dev --no-scripts
 
 # Copy existing application directory contents
 COPY . /var/www

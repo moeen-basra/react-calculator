@@ -50,5 +50,7 @@ http://{hostip}:8089
 ```
 
 
-9. reterive the jenkins key from logs and paste. Next continue with recommended plugins and you are ready to create pipe lines for build and deployments.
+9. reterive the jenkins key from logs and paste. Next continue with recommended plugins and ccreate a user. Verify your url thats it.
+
+you are ready to create pipe lines for build and deployments.
 
