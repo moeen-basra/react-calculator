@@ -1,0 +1,56 @@
+FROM php:7.3-fpm-alpine
+
+# Set working directory
+WORKDIR /var/www
+
+# Install dependencies
+RUN apk upgrade --update && apk add --no-cache \
+    autoconf \
+    g++ \
+    libtool \
+    make \
+    icu-dev \
+    freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev \
+    mysql-client \
+    zip \
+    libxml2-dev \
+    libzip-dev \
+    gmp \
+    gmp-dev \
+    unzip \
+    curl
+
+# Install extensions
+RUN docker-php-ext-install bcmath exif gmp pdo_mysql pcntl opcache intl \
+&& docker-php-ext-configure gd  --with-gd  --with-freetype-dir=/usr/include/  --with-png-dir=/usr/include/  --with-jpeg-dir=/usr/include/ \
+&& NPROC=$(getconf _NPROCESSORS_ONLN) \
+&& docker-php-ext-install -j${NPROC} gd
+
+RUN apk del --no-cache \
+    autoconf \
+    g++ \
+    gcc \
+    freetype-dev libjpeg-turbo-dev libpng-dev \
+    libxml2-dev \
+    libzip-dev \
+    gmp-dev
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer install --no-dev --no-scripts
+
+# Copy existing application directory contents
+COPY . /var/www
+
+RUN chown -R www-data:www-data \
+        /var/www/storage \
+        /var/www/bootstrap/cache
+
+RUN php artisan optimize
+
+# Change current user to www
+USER www-data
+
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+CMD ["php-fpm"]

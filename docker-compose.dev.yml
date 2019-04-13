@@ -1,0 +1,100 @@
+version: "3.7"
+services:
+  #Lumen Service
+  api:
+    container_name: api
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    ports:
+      - 9000:9000
+    volumes:
+      - ./api:/var/www
+      - ./api/.docker/php.ini:/usr/local/etc/php/conf.d/local.ini
+    depends_on: 
+      - mysql
+    links: 
+      - mysql
+    networks:
+      - network
+
+  #React service
+  app:
+    container_name: app
+    restart: unless-stopped
+    working_dir: /var/www/app
+    build:
+      context: ./app
+      dockerfile: Dockerfile.dev
+    ports: 
+      - 3000:3000
+      - 35729:35729
+    volumes: 
+      - ./app:/var/www/app
+      - ./app/node_modules
+    command: yarn start
+
+  #MySQL Service
+  mysql:
+    image: mariadb:latest
+    container_name: db
+    restart: unless-stopped
+    working_dir: /etc/mysql
+    tty: true
+    environment:
+      MYSQL_DATABASE: calculator
+      MYSQL_USER: calc_user
+      MYSQL_ROOT_PASSWORD: calc_pass
+      MYSQL_PASSWORD: calc_pass
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/:/docker-entrypoint-initdb.d/
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - network
+
+  #Nginx Service
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8088:8088"
+      - "443:443"
+    volumes:
+      - ./api:/var/www/api
+      - ./api/.docker/nginx.conf:/etc/nginx/conf.d/api.conf
+    working_dir: /var/www
+    depends_on: 
+      - api
+    networks:
+      - network
+  
+  #Jenkins Service
+  jenkins:
+    image: jenkins/jenkins
+    container_name: jenkins
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - ./jenkins:/var/jenkins_home
+      - ./api:/var/www/api
+      - ./app:/var/www/app
+    networks:
+      - network
+
+#Docker Networks
+networks:
+  network:
+    driver: bridge
+volumes:
+  dbdata:
+    driver: local

@@ -1,0 +1,8 @@
+/vendor
+/.idea
+/.docker
+Homestead.json
+Homestead.yaml
+/storage/framework/cache/**
+/storage/framework/sessions/**
+/storage/framework/views/**
