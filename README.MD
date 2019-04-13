@@ -2,36 +2,40 @@
 
 The calculator app build using the React, Lumen, Photon, Docker
 
-### Prerequisites
+## Prerequisites
 
 Make sure you have installed the docker and docker-compose before using this application
 you can find the guide [here](https://docs.docker.com/docker-for-windows/)
 
 #### Please follow the guide to install the app
 
-clone the project from git
+*clone the project from git
 
-``git clone http://``
+```
+git clone https://github.com/moeen-basra/react-calculator
+```
 
-go to project directory and run the command 
+2. go to api folder and create env file, copy content from .env.example and update 
 
-``docker-composer up -d --build``
+3. got app edit .env and update the ip for app
 
-create a .env file under api and copy the content of .env.example
+4. go to project root directory and run the command
 
-open your favorite brower and paste the follwoing url
+```docker-compose -f docker-compose.prod.yml build```
 
-``http://localhost:3000``
+5. run the containers
 
-for api use the following url
+```docker-compose -f docker-compose.prod.yml up -d```
 
-``http://localhost:8088``
+6. open your favorite brower and paste the follwoing url
 
-to check the history of all your calculations use the following api
+```http://{hostip}:8087```
 
-``http://localhost:8088/history``
+7. for api use the following url
 
-to filter the history use the following filters
+```http://{hostip}:8088```
 
-``http://localhost:8088/history?q=operation=add``
+8. for jenkins
+
+```http://{hostip}:8089```
 

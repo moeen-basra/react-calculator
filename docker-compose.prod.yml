@@ -30,7 +30,7 @@ services:
       context: ./app
       dockerfile: Dockerfile.prod
     ports: 
-      - 8000:80
+      - 8087:80
 
   #MySQL Service
   mysql:
@@ -45,7 +45,7 @@ services:
       MYSQL_ROOT_PASSWORD: calc_pass
       MYSQL_PASSWORD: calc_pass
     ports:
-      - 3306:3306
+      - 3333:3306
     volumes:
       - ./db/:/docker-entrypoint-initdb.d/
     command: --default-authentication-plugin=mysql_native_password
@@ -59,8 +59,8 @@ services:
     restart: always
     tty: true
     ports:
-      - "8088:8088"
-      - "443:443"
+      - 8088:8088
+      - 443:443
     volumes:
       - ./api:/var/www
       - ./api/.docker/nginx.conf:/etc/nginx/conf.d/api.conf
@@ -76,7 +76,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - 8080:8080
+      - 8089:8080
       - 50000:50000
     volumes:
       - ./jenkins:/var/jenkins_home
