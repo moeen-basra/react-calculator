@@ -41,6 +41,24 @@ http://{hostip}:8087
 
 ```
 http://{hostip}:8088
+
+# API to calcualte
+POST: http://{hostip}:8088/calculate
+params: {
+    operand1: required,
+    operand2: required,
+    operator: required // +,-,/,*,%,√,3√,xy,x!
+}
+
+# API for reports
+# note: please use the encodeURI for operators
+
+GET: http://moeen.me:8088/reports
+params: {
+    interval: required // daily, weekly, monthly
+    operator: required // +,-,/,*,%,√,3√,xy,x!
+    page: optional
+}
 ```
 
 8. for jenkins
@@ -54,3 +72,10 @@ http://{hostip}:8089
 
 you are ready to create pipe lines for build and deployments.
 
+Please check the demo
+
+1. [App](http://moeen.me:8087)
+2. [API](http://moeen.me:8088)
+3. [Jenkins](http://moeen.me:8089) 
+
+There is alot of space for the imporvements
